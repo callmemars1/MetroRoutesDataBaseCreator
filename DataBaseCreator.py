@@ -176,6 +176,8 @@ for line in lines:
         station_coord = (station.lat, station.lng)
         distance = gd.distance(prev_station_coord, station_coord).km
         approximate_time = round(distance / train_speed * 60 * 60) # in seconds
+        if approximate_time == 0:
+            approximate_time = train_speed
         values = [route[0].id,route[1].id,approximate_time]
         cursor.execute(
             """
@@ -209,6 +211,8 @@ for main_station in stations:
         if distance < 0.3:
             route = [main_station, transfer_station]
             approximate_time = round(distance / human_speed * 60 * 60)
+            if approximate_time == 0:
+                approximate_time = human_speed
             values = [route[0].id, route[1].id, approximate_time]
             cursor.execute(
                 """
